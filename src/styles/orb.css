@@ -1,0 +1,369 @@
+/* DevOrb Core Styles */
+
+:root {
+  --orb-size: 100px;
+  --orb-glow: rgba(100, 180, 255, 0.6);
+  --orb-core: rgba(60, 140, 220, 0.8);
+  --eye-color: #ffffff;
+  --pupil-color: #1a1a2e;
+  --speech-bg: rgba(30, 30, 40, 0.9);
+  --speech-text: #e0e0e0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Debug: uncomment to see window bounds */
+  /* background: rgba(255, 0, 0, 0.1); */
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 10px;
+  position: relative;
+  cursor: grab;
+}
+
+.app-container:active {
+  cursor: grabbing;
+}
+
+/* Orb Container */
+.orb-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Main Orb */
+.orb {
+  width: var(--orb-size);
+  height: var(--orb-size);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%,
+      rgba(140, 200, 255, 0.9) 0%,
+      rgba(80, 140, 220, 0.7) 40%,
+      rgba(50, 100, 180, 0.5) 70%,
+      rgba(30, 60, 120, 0.4) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 0 40px rgba(100, 180, 255, 0.6),
+    0 0 80px rgba(100, 180, 255, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.3);
+  position: relative;
+  animation: float 4s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.orb:hover {
+  box-shadow:
+    0 0 40px rgba(100, 180, 255, 0.5),
+    inset 0 0 25px rgba(255, 255, 255, 0.15);
+}
+
+/* Floating Animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Eye Core */
+.eye-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+}
+
+.eye {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 40% 40%,
+      #ffffff 0%,
+      #e8f4ff 50%,
+      #d0e8ff 100%);
+  border-radius: 50%;
+  position: relative;
+  box-shadow:
+    0 0 15px rgba(255, 255, 255, 0.8),
+    inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: eyeBlink 4s ease-in-out infinite;
+}
+
+.pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 40% 40%,
+      #3a3a5c 0%,
+      #1a1a2e 100%);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.pupil::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+}
+
+/* Eye Blink */
+@keyframes eyeBlink {
+
+  0%,
+  94%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  96%,
+  98% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* Happy Animation */
+.orb.happy {
+  animation: float 4s ease-in-out infinite, bounce 0.4s ease;
+}
+
+.orb.happy .eye {
+  transform: scaleY(0.7);
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  25% {
+    transform: translateY(-10px) scale(1.05);
+  }
+
+  50% {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+/* Snack Animation */
+.orb.snack {
+  animation: float 4s ease-in-out infinite, munch 0.5s ease;
+}
+
+@keyframes munch {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+.orb.snack .eye {
+  animation: happyEyes 0.5s ease;
+}
+
+@keyframes happyEyes {
+
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(0.5);
+  }
+}
+
+/* Speech Bubble */
+.speech-bubble {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 180px;
+  padding: 8px 12px;
+  background: var(--speech-bg);
+  border-radius: 12px;
+  color: var(--speech-text);
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeInOut 4s ease forwards;
+  pointer-events: none;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--speech-bg);
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+
+  10% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* Timer Indicator */
+.timer-indicator {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(100, 255, 150, 0.7);
+  box-shadow: 0 0 8px rgba(100, 255, 150, 0.5);
+}
+
+.timer-indicator.break {
+  background: rgba(255, 180, 100, 0.7);
+  box-shadow: 0 0 8px rgba(255, 180, 100, 0.5);
+}
+
+.timer-indicator.off {
+  background: rgba(150, 150, 150, 0.5);
+  box-shadow: none;
+}
+
+/* Timer Controls */
+.timer-controls {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.app-container:hover .timer-controls {
+  opacity: 1;
+}
+
+.timer-btn {
+  padding: 4px 10px;
+  font-size: 10px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(60, 60, 80, 0.8);
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timer-btn:hover {
+  background: rgba(80, 100, 140, 0.9);
+  transform: scale(1.05);
+}
+
+.timer-btn.active {
+  background: rgba(100, 180, 255, 0.8);
+  color: #1a1a2e;
+}
+
+/* Timer Time Display */
+.timer-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  display: none;
+}
+
+.orb:hover .timer-display {
+  display: block;
+}
+
+/* Snack Drop Zone */
+.snack-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.snack-zone.active {
+  background: rgba(255, 200, 100, 0.1);
+  border-radius: 50%;
+}
