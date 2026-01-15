@@ -15,13 +15,13 @@
       {
         "label": "main",
         "title": "DevOrb",
-        "width": 140,
-        "height": 200,
-        "x": 50,
-        "y": 100,
+        "width": 200,
+        "height": 280,
+        "x": 1200,
+        "y": 400,
         "resizable": false,
         "decorations": false,
-        "transparent": true,
+        "transparent": false,
         "alwaysOnTop": true,
         "skipTaskbar": true,
         "visible": true
